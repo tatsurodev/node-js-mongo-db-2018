@@ -14,10 +14,16 @@ Post.create({
 })
 */
 
-// read
+/* read
+// documentsの取得
 // findの第一引数でdocument検索、空objectの指定で全該当documents取得
-Post.find({
-  title: 'My first blog post',
-}, (error, posts) => {
+Post.find({}, (error, posts) => {
   console.log(error, posts)
+})
+*/
+
+// single documentの取得
+// findByIdの第一引数のidはmongodbのid formatに従う必要あり、テキトーな文字列だとerror
+Post.findById('5f8a0996fea5ea0deba8cf6a', (error, post) => {
+  console.log(error, post)
 })
