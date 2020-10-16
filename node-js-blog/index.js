@@ -16,9 +16,13 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true, }))
 
-app.get('/', (req, res) => {
-  // renderでtemplateを表示
-  res.render('index')
+// getでPost modelからdataを取得したいのでasync awaitで非同期的に処理
+app.get('/', async (req, res) => {
+  const posts = await Post.find({})
+  // renderでtemplateを表示, 第二引数で渡すdataをkey: valueで指定可
+  res.render('index', {
+    posts,
+  })
 })
 
 app.get('/posts/new', (req, res) => {
