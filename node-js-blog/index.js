@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, 'pages', 'about.html'))
+  res.render('about')
 })
 
 app.get('/post', (req, res) => {
