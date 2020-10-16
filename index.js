@@ -31,24 +31,27 @@ server.listen(3000)
 */
 
 /* expressでserver起動 */
+const path = require('path')
+
 const express = require('express')
 
 // start server
 const app = express()
 
 // routingの定義
-app.get('/', (request, response) => {
-  // jsonで返す
-  response.json({
-    name: 'kati frantz',
-  })
+app.get('/', (req, res) => {
+  // sendFile(absolutPath)でfileを送る
+  // path.resolveで絶対パスを返す
+  // __dirnameも絶対パスを返すglobal変数
+  res.sendFile(path.resolve(__dirname, 'index.html'))
 })
 
-app.get('/about', (request, response) => {
-  // sendでfile, view何でも送れる
-  response.send({
-    name: 'kati frantz',
-  })
+app.get('/about', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'about.html'))
+})
+
+app.get('/contact', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'contact.html'))
 })
 
 app.listen(3000, () => {
