@@ -38,6 +38,9 @@ const express = require('express')
 // start server
 const app = express()
 
+// static assetは全てpublicに格納
+app.use(express.static('public'))
+
 // routingの定義
 app.get('/', (req, res) => {
   // sendFile(absolutPath)でfileを送る
