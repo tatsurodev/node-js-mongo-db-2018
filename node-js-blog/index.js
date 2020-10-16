@@ -2,8 +2,10 @@ const path = require('path')
 // 分割代入で別名保存
 const { engine: expressEdge } = require('express-edge')
 const express = require('express')
+const mongoose = require('mongoose')
 
 const app = new express()
+mongoose.connect('mongodb://localhost/node-js-blog')
 app.use(express.static('public'))
 app.use(expressEdge)
 // templateのpathを指定
