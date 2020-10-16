@@ -20,10 +20,17 @@ Post.create({
 Post.find({}, (error, posts) => {
   console.log(error, posts)
 })
-*/
 
 // single documentの取得
 // findByIdの第一引数のidはmongodbのid formatに従う必要あり、テキトーな文字列だとerror
 Post.findById('5f8a0996fea5ea0deba8cf6a', (error, post) => {
+  console.log(error, post)
+})
+*/
+
+// update
+Post.findByIdAndUpdate('5f8a05ef53da0117ad3cd87e', {
+  title: 'My first blog post title lorem ipsum',
+}, (error, post) => {
   console.log(error, post)
 })
