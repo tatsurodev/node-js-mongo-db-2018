@@ -2,9 +2,12 @@ const http = require('http')
 // file操作系(file system)のpackage
 const fs = require('fs')
 
-const aboutPage = fs.readFileSync('about.html')
-const contactPage = fs.readFileSync('contact.html')
-const homePage = fs.readFileSync('index.html')
+// readFileの使用で非同期的処理が書ける、non-blocking code
+// const aboutPage = fs.readFile('about.html', file=>{})
+// readFileSyncの使用で同期的処理が書ける、blocking code
+const aboutPage = fs.readFile('about.html')
+const contactPage = fs.readFile('contact.html')
+const homePage = fs.readFile('index.html')
 
 const server = http.createServer((request, response) => {
   if (request.url === '/about') {
