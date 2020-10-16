@@ -1,3 +1,5 @@
+/* nodeでserver起動
+
 const http = require('http')
 // file操作系(file system)のpackage
 const fs = require('fs')
@@ -25,3 +27,30 @@ const server = http.createServer((request, response) => {
 
 // node index.jsでserver起動、localhost:3000でaccess可
 server.listen(3000)
+
+*/
+
+/* expressでserver起動 */
+const express = require('express')
+
+// start server
+const app = express()
+
+// routingの定義
+app.get('/', (request, response) => {
+  // jsonで返す
+  response.json({
+    name: 'kati frantz',
+  })
+})
+
+app.get('/about', (request, response) => {
+  // sendでfile, view何でも送れる
+  response.send({
+    name: 'kati frantz',
+  })
+})
+
+app.listen(3000, () => {
+  console.log('App listening on port 3000')
+})
