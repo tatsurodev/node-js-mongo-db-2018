@@ -5,6 +5,12 @@ const PostSchema = new mongoose.Schema({
   title: String,
   description: String,
   content: String,
+  username: String,
+  // objectで指定することでdefault値の設定が可能、type keyでtype指定が必須
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 })
 
 // modelの作成
