@@ -11,6 +11,7 @@ const createPostController = require('./controllers/createPost')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
 const createUserController = require('./controllers/createUser')
+const storeUserController = require('./controllers/storeUser')
 // middleware
 const storePost = require('./middleware/storePost')
 
@@ -29,17 +30,16 @@ app.use(fileUpload())
 // middlewareを特定のpathのみで使用
 app.use('/posts/store', storePost)
 
-// getでPost modelからdataを取得したいのでasync awaitで非同期的に処理
+// postController
 app.get('/', homePageController)
-
 app.get('/posts/new', createPostController)
-
 app.post('/posts/store', storePostController)
-
 // dynamic route
 app.get('/post/:id', getPostController)
 
+// userController
 app.get('/auth/register', createUserController)
+app.post('/users/register', storeUserController)
 
 app.listen(4000, () => {
   console.log('App listening on port 4000')
