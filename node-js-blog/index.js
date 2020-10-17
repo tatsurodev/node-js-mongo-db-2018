@@ -10,8 +10,10 @@ const homePageController = require('./controllers/homePage')
 const createPostController = require('./controllers/createPost')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
+// middleware
+const storePost = require('./middleware/storePost')
 
-// 全controllerで使用する可能性の高いdb, template, fileupload系の設定は個別のcontrollerに切り分けずに、起動fileに残しておくとbetter
+// 全controllerで使用する可能性の高いdb, template, fileupload系の設定は個別のcontrollerに切り分けずに、起動fileに残しておくとbetter。modelはcontroller固有のものなのでcontroller側でrequireするとよい
 const app = new express()
 mongoose.connect('mongodb://localhost/node-js-blog')
 app.use(express.static('public'))
@@ -23,17 +25,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true, }))
 // fileUploadの使用
 app.use(fileUpload())
-// validation middlewareの作成と使用
-const validateCreatePostMiddleware = (req, res, next) => {
-  console.log(req.files)
-  if (!req.files || !req.body.username || !req.body.title || !req.body.subtitle || !req.body.content) {
-    return res.redirect('/posts/new')
-  }
-  // nextをcallしないとresponseがhangingになるので注意
-  next()
-}
-// 特定のpathのみで使用
-app.use('/posts/store', validateCreatePostMiddleware)
+// middlewareを特定のpathのみで使用
+app.use('/posts/store', storePost)
 
 // getでPost modelからdataを取得したいのでasync awaitで非同期的に処理
 app.get('/', homePageController)
