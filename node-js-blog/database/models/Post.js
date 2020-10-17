@@ -6,6 +6,7 @@ const PostSchema = new mongoose.Schema({
   subtitle: String,
   content: String,
   username: String,
+  image: String,
   // objectで指定することでdefault値の設定が可能、type keyでtype指定が必須
   createdAt: {
     type: Date,

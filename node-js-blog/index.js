@@ -39,7 +39,11 @@ app.post('/posts/store', (req, res) => {
   // image.mv(path, callback)で移動、先に保存用のposts folderを作成しておくこと
   image.mv(path.join(__dirname, 'public', 'posts', image.name), error => {
     // body-parserで受け取ったform値をreq.bodyで取得
-    Post.create(req.body, (error, post) => {
+    Post.create({
+      ...req.body,
+      // static assetはpublic folderにあるのは分かっているのでpublicをpathに含める必要はなし
+      image: `/posts/${image.name}`,
+    }, (error, post) => {
       res.redirect('/')
     })
   })
