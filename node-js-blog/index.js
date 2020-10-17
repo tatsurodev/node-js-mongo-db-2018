@@ -10,6 +10,7 @@ const homePageController = require('./controllers/homePage')
 const createPostController = require('./controllers/createPost')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
+const createUserController = require('./controllers/createUser')
 // middleware
 const storePost = require('./middleware/storePost')
 
@@ -37,6 +38,8 @@ app.post('/posts/store', storePostController)
 
 // dynamic route
 app.get('/post/:id', getPostController)
+
+app.get('/auth/register', createUserController)
 
 app.listen(4000, () => {
   console.log('App listening on port 4000')
