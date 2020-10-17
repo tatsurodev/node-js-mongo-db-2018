@@ -10,6 +10,8 @@ const homePageController = require('./controllers/homePage')
 const createPostController = require('./controllers/createPost')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
+const loginController = require('./controllers/login')
+const loginUserController = require('./controllers/loginUser')
 const createUserController = require('./controllers/createUser')
 const storeUserController = require('./controllers/storeUser')
 // middleware
@@ -38,6 +40,8 @@ app.post('/posts/store', storePostController)
 app.get('/post/:id', getPostController)
 
 // userController
+app.get('/auth/login', loginController)
+app.post('/users/login', loginUserController)
 app.get('/auth/register', createUserController)
 app.post('/users/register', storeUserController)
 
