@@ -5,6 +5,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Post = require('./database/models/Post')
+const fileUpload = require('express-fileupload')
 
 const app = new express()
 mongoose.connect('mongodb://localhost/node-js-blog')
@@ -15,6 +16,8 @@ app.set('views', path.join(__dirname, 'views'))
 // formを受け取るbody-parserの設定
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true, }))
+// fileUploadの使用
+app.use(fileUpload())
 
 // getでPost modelからdataを取得したいのでasync awaitで非同期的に処理
 app.get('/', async (req, res) => {
@@ -30,9 +33,15 @@ app.get('/posts/new', (req, res) => {
 })
 
 app.post('/posts/store', (req, res) => {
-  // body-parserで受け取ったform値をreq.bodyで取得
-  Post.create(req.body, (error, post) => {
-    res.redirect('/')
+  // req.filesでuploadされたfileにaccess
+  const { image } = req.files
+  // console.log(image)
+  // image.mv(path, callback)で移動、先に保存用のposts folderを作成しておくこと
+  image.mv(path.join(__dirname, 'public', 'posts', image.name), error => {
+    // body-parserで受け取ったform値をreq.bodyで取得
+    Post.create(req.body, (error, post) => {
+      res.redirect('/')
+    })
   })
 })
 
