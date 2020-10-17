@@ -18,13 +18,17 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true, }))
 // fileUploadの使用
 app.use(fileUpload())
-// custom middlewareの作成と使用
-const customMiddleware = (req, res, next) => {
-  console.log('I HAVE BEEN CALLED.')
+// validation middlewareの作成と使用
+const validateCreatePostMiddleware = (req, res, next) => {
+  console.log(req.files)
+  if (!req.files || !req.body.username || !req.body.title || !req.body.subtitle || !req.body.content) {
+    return res.redirect('/posts/new')
+  }
   // nextをcallしないとresponseがhangingになるので注意
-  // next()
+  next()
 }
-app.use(customMiddleware)
+// 特定のpathのみで使用
+app.use('/posts/store', validateCreatePostMiddleware)
 
 // getでPost modelからdataを取得したいのでasync awaitで非同期的に処理
 app.get('/', async (req, res) => {
