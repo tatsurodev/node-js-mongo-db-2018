@@ -18,6 +18,13 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true, }))
 // fileUploadの使用
 app.use(fileUpload())
+// custom middlewareの作成と使用
+const customMiddleware = (req, res, next) => {
+  console.log('I HAVE BEEN CALLED.')
+  // nextをcallしないとresponseがhangingになるので注意
+  // next()
+}
+app.use(customMiddleware)
 
 // getでPost modelからdataを取得したいのでasync awaitで非同期的に処理
 app.get('/', async (req, res) => {
