@@ -1,6 +1,8 @@
 const path = require('path')
 // 分割代入で別名保存
 const { engine: expressEdge } = require('express-edge')
+// edge.jsを直接使用
+const edge = require('edge.js')
 const express = require('express')
 const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
@@ -36,6 +38,12 @@ app.use(expressSession({
     mongooseConnection: mongoose.connection,
   }),
 }))
+// global middleware, auth userか否かをcheckするのにsession.userIdを使用しているのでsession開始後にこのmiddlewareを登録しないとreq.session.userIdがundefinedのerrorが出るので注意
+app.use('*', (req, res, next) => {
+  // edgeのtemplateにglobal変数authをset
+  edge.global('auth', req.session.userId)
+  next()
+})
 // flashの使用
 app.use(connectFlash())
 app.use(express.static('public'))
@@ -47,6 +55,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true, }))
 // fileUploadの使用
 app.use(fileUpload())
+
 
 // postController
 app.get('/', homePageController)
