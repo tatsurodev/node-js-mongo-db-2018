@@ -4,16 +4,17 @@ const mongoose = require('mongoose')
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    // 配列の2つ目はvalidation error message
+    required: [true, 'Please provide your username.'],
   },
   email: {
     type: String,
-    required: true,
+    required: [true, 'Please provide your email.'],
     unique: true,
   },
   password: {
     type: String,
-    required: true,
+    required: [true, 'Please provide your password.'],
   },
 })
 

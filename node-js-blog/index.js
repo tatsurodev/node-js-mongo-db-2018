@@ -4,6 +4,7 @@ const { engine: expressEdge } = require('express-edge')
 const express = require('express')
 const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
+const connectFlash = require('connect-flash')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
@@ -34,6 +35,8 @@ app.use(expressSession({
     mongooseConnection: mongoose.connection,
   }),
 }))
+// flashの使用
+app.use(connectFlash())
 app.use(express.static('public'))
 app.use(expressEdge)
 // templateのpathを指定
