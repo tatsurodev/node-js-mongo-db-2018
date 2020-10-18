@@ -13,7 +13,7 @@ module.exports = (req, res) => {
       // static assetはpublic folderにあるのは分かっているのでpublicをpathに含める必要はなし
       image: `/posts/${image.name}`,
       // 投稿者のuser id格納
-      user_id: req.session.userId,
+      author: req.session.userId,
     }, (error, post) => {
       res.redirect('/')
     })

@@ -5,7 +5,8 @@ const PostSchema = new mongoose.Schema({
   title: String,
   subtitle: String,
   content: String, // Stringは、mongoose.Schema.Types.Stringと同値
-  user_id: {
+  // user_idのようにmodel_idのような命名規則はないのでfield名は自由に決めておｋ
+  author: {
     // documentのidを示すtype
     type: mongoose.Schema.Types.ObjectId,
     // User modelを参照しているの意
