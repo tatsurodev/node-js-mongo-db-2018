@@ -19,6 +19,7 @@ const createUserController = require('./controllers/createUser')
 const storeUserController = require('./controllers/storeUser')
 // middleware
 const auth = require('./middleware/auth')
+const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
 const storePost = require('./middleware/storePost')
 
 // 全controllerで使用する可能性の高いdb, template, fileupload系の設定は個別のcontrollerに切り分けずに、起動fileに残しておくとbetter。modelはcontroller固有のものなのでcontroller側でrequireするとよい
@@ -56,10 +57,10 @@ app.post('/posts/store', auth, storePost, storePostController)
 app.get('/post/:id', getPostController)
 
 // userController
-app.get('/auth/login', loginController)
-app.post('/users/login', loginUserController)
-app.get('/auth/register', createUserController)
-app.post('/users/register', storeUserController)
+app.get('/auth/login', redirectIfAuthenticated, loginController)
+app.post('/users/login', redirectIfAuthenticated, loginUserController)
+app.get('/auth/register', redirectIfAuthenticated, createUserController)
+app.post('/users/register', redirectIfAuthenticated, storeUserController)
 
 app.listen(4000, () => {
   console.log('App listening on port 4000')
