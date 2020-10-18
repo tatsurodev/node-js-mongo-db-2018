@@ -17,6 +17,7 @@ const loginUserController = require('./controllers/loginUser')
 const createUserController = require('./controllers/createUser')
 const storeUserController = require('./controllers/storeUser')
 // middleware
+const auth = require('./middleware/auth')
 const storePost = require('./middleware/storePost')
 
 // 全controllerで使用する可能性の高いdb, template, fileupload系の設定は個別のcontrollerに切り分けずに、起動fileに残しておくとbetter。modelはcontroller固有のものなのでcontroller側でrequireするとよい
@@ -42,13 +43,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true, }))
 // fileUploadの使用
 app.use(fileUpload())
-// middlewareを特定のpathのみで使用
-app.use('/posts/store', storePost)
 
 // postController
 app.get('/', homePageController)
-app.get('/posts/new', createPostController)
-app.post('/posts/store', storePostController)
+// 第二引数以降、順にmiddlewareが実行されcontrollerの処理にたどり着く
+app.get('/posts/new', auth, createPostController)
+app.post('/posts/store', auth, storePost, storePostController)
 // dynamic route
 app.get('/post/:id', getPostController)
 
