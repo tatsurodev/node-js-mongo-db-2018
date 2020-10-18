@@ -12,7 +12,8 @@ module.exports = (req, res) => {
       bcrypt.compare(password, user.password, (error, same) => {
         // passwordが一致
         if (same) {
-          // sessionを保存
+          // req.sessionでsession保存
+          req.session.userId = user._id
           res.redirect('/')
           // password不一致
         } else {

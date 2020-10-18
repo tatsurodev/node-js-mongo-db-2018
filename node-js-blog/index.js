@@ -2,6 +2,7 @@ const path = require('path')
 // 分割代入で別名保存
 const { engine: expressEdge } = require('express-edge')
 const express = require('express')
+const expressSession = require('express-session')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
@@ -19,6 +20,11 @@ const storePost = require('./middleware/storePost')
 
 // 全controllerで使用する可能性の高いdb, template, fileupload系の設定は個別のcontrollerに切り分けずに、起動fileに残しておくとbetter。modelはcontroller固有のものなのでcontroller側でrequireするとよい
 const app = new express()
+// sessionの設定
+app.use(expressSession({
+  // secretで指定した文字列を使ってクッキーIDを暗号化、必須項目
+  secret: 'secret',
+}))
 mongoose.connect('mongodb://localhost/node-js-blog')
 app.use(express.static('public'))
 app.use(expressEdge)
