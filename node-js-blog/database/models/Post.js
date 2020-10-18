@@ -4,8 +4,14 @@ const mongoose = require('mongoose')
 const PostSchema = new mongoose.Schema({
   title: String,
   subtitle: String,
-  content: String,
-  username: String,
+  content: String, // Stringは、mongoose.Schema.Types.Stringと同値
+  user_id: {
+    // documentのidを示すtype
+    type: mongoose.Schema.Types.ObjectId,
+    // User modelを参照しているの意
+    ref: 'User',
+    required: true,
+  },
   image: String,
   // objectで指定することでdefault値の設定が可能、type keyでtype指定が必須
   createdAt: {
