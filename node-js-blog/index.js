@@ -59,7 +59,16 @@ app.use(fileUpload())
 
 
 // postController
+// app.use((req, res, next) => {
+//   console.log('before home')
+//   next()
+// })
+// home routeに合致した時、これ以降のrouteはcheckされない、つまり/にaccessした時はbefore homeがlogに、/post/newにaccessした時はbefore homeとafter homeがlogに表示される
 app.get('/', homePageController)
+// app.use((req, res, next) => {
+//   console.log('after home')
+//   next()
+// })
 // 第二引数以降、順にmiddlewareが実行されcontrollerの処理にたどり着く
 app.get('/posts/new', auth, createPostController)
 app.post('/posts/store', auth, storePost, storePostController)
@@ -71,7 +80,10 @@ app.get('/auth/login', redirectIfAuthenticated, loginController)
 app.post('/users/login', redirectIfAuthenticated, loginUserController)
 app.get('/auth/register', redirectIfAuthenticated, createUserController)
 app.post('/users/register', redirectIfAuthenticated, storeUserController)
-app.get('/auth/logout', redirectIfAuthenticated, logoutController)
+app.get('/auth/logout', auth, logoutController)
+
+// 404 page、上記のrouteに合致しない時初めてこのmiddleware likeな処理が実行される
+app.use((req, res) => res.render('not-found'))
 
 app.listen(4000, () => {
   console.log('App listening on port 4000')
