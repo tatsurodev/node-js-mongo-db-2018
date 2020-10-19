@@ -11,6 +11,7 @@ const connectFlash = require('connect-flash')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
+const cloudinary = require('cloudinary')
 // controller
 const homePageController = require('./controllers/homePage')
 const createPostController = require('./controllers/createPost')
@@ -30,6 +31,8 @@ const storePost = require('./middleware/storePost')
 const app = new express()
 // dotenv設定
 dotenv.config()
+// .envから使用するkey
+const { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } = process.env
 // mongoose設定
 mongoose.connect('mongodb://localhost/node-js-blog')
 // sessionをconnect-mongoでmongodbに保存する
@@ -60,7 +63,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true, }))
 // fileUploadの使用
 app.use(fileUpload())
-
+// cloudinary設定
+cloudinary.config({
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_API_SECRET,
+  cloud_name: CLOUDINARY_CLOUD_NAME,
+})
 
 // postController
 // app.use((req, res, next) => {
