@@ -32,15 +32,15 @@ const app = new express()
 // dotenv設定
 dotenv.config()
 // .envから使用するkey
-const { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } = process.env
+const { PORT, EXPRESS_SESSION_KEY, DB_URI, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } = process.env
 // mongoose設定
-mongoose.connect('mongodb://localhost/node-js-blog')
+mongoose.connect(DB_URI)
 // sessionをconnect-mongoでmongodbに保存する
 const mongoStore = connectMongo(expressSession)
 // sessionの設定
 app.use(expressSession({
   // secretで指定した文字列を使ってクッキーIDを暗号化、必須項目
-  secret: 'secret',
+  secret: EXPRESS_SESSION_KEY,
   store: new mongoStore({
     // これより先にmongooseでmongodbとのconnectionが成されている必要がある
     mongooseConnection: mongoose.connection,
@@ -97,6 +97,6 @@ app.get('/auth/logout', auth, logoutController)
 // 404 page、上記のrouteに合致しない時初めてこのmiddleware likeな処理が実行される
 app.use((req, res) => res.render('not-found'))
 
-app.listen(4000, () => {
-  console.log('App listening on port 4000')
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`)
 })
